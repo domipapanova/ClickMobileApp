@@ -1,59 +1,58 @@
-import { StatusBar } from "expo-status-bar";
-import { Button, StyleSheet, Text, View, Image } from "react-native";
+import React, { useState, useEffect } from "react";
+import { View, Text, Button, StyleSheet, Touchable } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import Sidebar from "./src/drawer/Sidebar";
-import Home from "./src/screens/Home";
-import VictoryScreen from "./src/screens/VictoryScreen";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
+import Screen1 from "./src/screens/Screen1";
+import Screen2 from "./src/screens/Screen2";
+import CustomHeader from "./src/drawer/CustomHeader";
+import Sidebar from "./src/drawer/Sidebar";
 const Stack = createNativeStackNavigator();
 
-function HeaderLogo() {
+const VyhernyScreen = ({ route }) => {
+  const { pressCount } = route.params;
+
   return (
-    <View
-      style={{
-        flex: 1,
-        flexDirection: "row",
-        flexWrap: "wrap",
-        alignItems: "center",
-      }}
-    >
-      <Image
-        style={{ width: 30, height: 30 }}
-        source={require("./src/images/logo.png")}
-      />
+    <View style={styles.container}>
+      <Text style={styles.text}>
+        Gratulujem! Dosiahol si požadovaný počet stlačení: {pressCount}
+      </Text>
     </View>
   );
-}
+};
 
 export default function App() {
   return (
-    /*<NavigationContainer>
-      <Stack.Navigator
-        initialRouteName="Home"
-        screenOptions={{
-          headerStyle: {
-            backgroundColor: "chartreuse",
-          },
-        }}
-      >
-        <Stack.Screen
-          name="Screen 1"
-          component={Home}
-          options={{ headerTitle: () => <HeaderLogo /> }}
-        />
-        <Stack.Screen name="Screen 2" component={VictoryScreen} />
-      </Stack.Navigator>
-    </NavigationContainer>*/
     <Sidebar />
+    /*<GestureHandlerRootView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Screen1" component={Screen1} />
+          <Stack.Screen
+            name="Screen2"
+            component={Screen2}
+            options={{ gestureEnabled: false }} // Zabraňuje používateľovi vrátiť sa späť na Screen 1
+          />
+          <Stack.Screen
+            name="VyhernyScreen"
+            component={VyhernyScreen}
+            options={{ gestureEnabled: false }} // Zabraňuje používateľovi vrátiť sa späť na Screen 1
+          />
+        </Stack.Navigator>
+      </NavigationContainer>
+    </GestureHandlerRootView>*/
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
     justifyContent: "center",
+    alignItems: "center",
+  },
+  text: {
+    fontSize: 20,
+    marginBottom: 20,
   },
 });

@@ -1,23 +1,29 @@
-import { View, Text, Button, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import { View, Text, StyleSheet, Button } from "react-native";
+import React, { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { NavigationContainer } from "@react-navigation/native";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const generateRandomNumber = () => {
   return Math.floor(Math.random() * 11);
 };
 
-const Home = ({ navigation }) => {
+const Screen1 = ({ navigation }) => {
   const [pressCount, setPressCount] = useState(0);
-  const [targetCount, setTargetCount] = useState(generateRandomNumber());
+  const [gameOver, setGameOver] = useState(false);
+
+  useEffect(() => {
+    AsyncStorage.setItem("gameOver", JSON.stringify(gameOver));
+  }, [gameOver]);
+
+  const targetCount = generateRandomNumber();
 
   const handleButtonPress = () => {
     const newCount = pressCount + 1;
     setPressCount(newCount);
 
-    if (newCount >= targetCount) {
-      navigation.navigate("VictoryScreen", { pressCount });
+    if (!gameOver && newCount >= targetCount) {
+      setGameOver(true);
+      navigation.navigate("Screen2", { pressCount });
     }
   };
 
@@ -26,13 +32,11 @@ const Home = ({ navigation }) => {
       <View style={styles.counter}>
         <Text style={styles.textCounter}>Počet stlačení: {pressCount}</Text>
       </View>
-
       <TouchableOpacity onPress={handleButtonPress} style={styles.button}>
         <Text>Stlačiť</Text>
       </TouchableOpacity>
-
       <TouchableOpacity
-        onPress={() => navigation.navigate("VictoryScreen")}
+        onPress={() => navigation.navigate("Screen2", { pressCount })}
         style={styles.buttonWhite}
       >
         <Text>Prejsť na screen 2</Text>
@@ -83,4 +87,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Home;
+export default Screen1;
