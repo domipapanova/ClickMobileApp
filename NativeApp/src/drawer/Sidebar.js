@@ -1,4 +1,4 @@
-import { View, StyleSheet, SafeAreaView } from "react-native";
+import { View, StyleSheet, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
@@ -10,14 +10,14 @@ import Screen2 from "../screens/Screen2";
 
 const Drawer = createDrawerNavigator();
 
-const HomeIcon = ({ focused, color, size }) => (
+const HomeIcon = ({ color, size }) => (
   <Ionicons name="home-outline" size={size} color={color} />
 );
 
-const SettingsIcon = ({ focused, color, size }) => (
+const SettingsIcon = ({ color, size }) => (
   <Ionicons name="settings-outline" size={size} color={color} />
 );
-const LogoutIcon = ({ focused, color, size }) => (
+const LogoutIcon = ({ color, size }) => (
   <Ionicons name="log-out-outline" size={size} color={color} />
 );
 
@@ -62,7 +62,7 @@ const Sidebar = () => {
   );
 };
 
-function CustomDrawerContent(props) {
+function CustomDrawerContent() {
   return (
     <SafeAreaView
       style={{ flex: 1 }}
