@@ -2,12 +2,13 @@ import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet, Image } from "react-native";
 import { DrawerActions } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/FontAwesome6";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const CustomHeader = ({ navigation, route }) => {
   const { name } = route;
 
   return (
-    <View style={styles.header}>
+    <SafeAreaView style={styles.header}>
       <Image style={styles.logo} source={require("../images/logo.png")} />
       <Text style={styles.screenName}>{name}</Text>
       <TouchableOpacity
@@ -16,7 +17,7 @@ const CustomHeader = ({ navigation, route }) => {
       >
         <Icon name="bars" style={styles.icon} />
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 
@@ -26,8 +27,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "chartreuse",
-    height: 70,
-    paddingTop: 10,
+    paddingTop: 5,
     paddingHorizontal: 15,
   },
   menuButton: {

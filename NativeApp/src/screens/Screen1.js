@@ -1,7 +1,6 @@
-import { View, Text, StyleSheet, Button } from "react-native";
+import { View, SafeAreaView, Text, StyleSheet, Button } from "react-native";
 import React, { useState, useEffect } from "react";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const generateRandomNumber = () => {
   return Math.floor(Math.random() * 11);
@@ -10,12 +9,11 @@ const generateRandomNumber = () => {
 const Screen1 = ({ navigation }) => {
   const [pressCount, setPressCount] = useState(0);
   const [gameOver, setGameOver] = useState(false);
+  const [targetCount, setTargetCount] = useState(0);
 
   useEffect(() => {
-    AsyncStorage.setItem("gameOver", JSON.stringify(gameOver));
-  }, [gameOver]);
-
-  const targetCount = generateRandomNumber();
+    setTargetCount(generateRandomNumber());
+  }, []);
 
   const handleButtonPress = () => {
     const newCount = pressCount + 1;
@@ -23,12 +21,12 @@ const Screen1 = ({ navigation }) => {
 
     if (!gameOver && newCount >= targetCount) {
       setGameOver(true);
-      navigation.navigate("Screen2", { pressCount });
+      navigation.navigate("Screen2", { pressCount: newCount, gameOver: true });
     }
   };
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.counter}>
         <Text style={styles.textCounter}>Počet stlačení: {pressCount}</Text>
       </View>
@@ -36,12 +34,12 @@ const Screen1 = ({ navigation }) => {
         <Text>Stlačiť</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        onPress={() => navigation.navigate("Screen2", { pressCount })}
+        onPress={() => navigation.navigate("Screen2", { pressCount, gameOver })}
         style={styles.buttonWhite}
       >
         <Text>Prejsť na screen 2</Text>
       </TouchableOpacity>
-    </View>
+    </SafeAreaView>
   );
 };
 

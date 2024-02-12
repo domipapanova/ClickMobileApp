@@ -1,29 +1,20 @@
 import { View, Text, StyleSheet, Button } from "react-native";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useIsFocused } from "@react-navigation/native";
 
 import React, { useState, useEffect } from "react";
 
 const Screen2 = ({ navigation, route }) => {
   const [visitCount, setVisitCount] = useState(0);
-  const { pressCount } = route.params;
-  const [gameOver, setGameOver] = useState(false);
+  const { gameOver, pressCount } = route.params;
+  const isFocused = useIsFocused();
 
   useEffect(() => {
-    AsyncStorage.getItem("gameOver").then((value) => {
-      if (value !== null) {
-        setGameOver(JSON.parse(value));
-      }
-    });
-  }, []);
-  // Zvýšiť počet návštev o 1 pri každom zobrazení Screen 2 alebo návrate na Screen 1
-  useEffect(() => {
-    const unsubscribe = navigation.addListener("focus", () => {
-      setVisitCount(visitCount + 1);
-    });
-
-    return unsubscribe;
-  }, [navigation]);
+    if (isFocused) {
+      setVisitCount((prevCount) => prevCount + 1);
+    }
+  }, [isFocused]);
 
   return (
     <View style={styles.container}>
@@ -40,6 +31,12 @@ const Screen2 = ({ navigation, route }) => {
           <Text>Späť</Text>
         </TouchableOpacity>
       )}
+
+      {gameOver && (
+        <Text style={styles.victoryText}>
+          Vyhral si hru. Počítadlo stlačenia bolo aktivované {pressCount} krát
+        </Text>
+      )}
     </View>
   );
 };
@@ -55,6 +52,11 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     color: "red",
     fontWeight: "bold",
+  },
+  victoryText: {
+    fontSize: 10,
+    marginBottom: 20,
+    color: "black",
   },
   counter: {
     position: "absolute",

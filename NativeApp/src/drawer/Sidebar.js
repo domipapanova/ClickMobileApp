@@ -1,14 +1,7 @@
 import { View, StyleSheet, SafeAreaView } from "react-native";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
-import {
-  createDrawerNavigator,
-  DrawerContentScrollView,
-  DrawerItemList,
-  DrawerItem,
-} from "@react-navigation/drawer";
-import Home from "../screens/Home";
-import VictoryScreen from "../screens/VictoryScreen";
+import { createDrawerNavigator, DrawerItem } from "@react-navigation/drawer";
 import CustomHeader from "./CustomHeader";
 import Ionicons from "@expo/vector-icons/Ionicons";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
